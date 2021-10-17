@@ -6,7 +6,7 @@ require('dotenv').config();
 
 const transporter = nodemailer.createTransport({
     host: process.env.HOST,
-    port: process.env.PORT,
+    port: process.env.EMAIL_PORT,
     auth: {
         user: process.env.EMAIL,
         pass: process.env.PASS
@@ -48,8 +48,12 @@ router.post('/send', (req, res) => {
     })
 })
 
+const PORT = process.env.PORT || 3000;
+
 const app = express()
 app.use(cors())
 app.use(express.json())
 app.use('/', router)
-app.listen(3002)
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+})
